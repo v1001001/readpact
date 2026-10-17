@@ -1,0 +1,899 @@
+/* Measurements follow the supplied HTML at a 393px viewport. */
+.readpact.readpact-home {
+  padding: 0;
+  overflow: hidden;
+}
+.editorial-home {
+  background: #fff;
+}
+.home-upper {
+  padding: 28px 18px 22px;
+}
+.home-masthead {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  min-height: 48px;
+}
+.home-masthead time {
+  display: block;
+  font-size: 20px;
+  line-height: 1.08;
+  font-weight: 850;
+  letter-spacing: -0.45px;
+}
+.home-masthead > div > span {
+  display: block;
+  margin-top: 4px;
+  font-size: 14px;
+  line-height: 18px;
+  color: #a0a1a8;
+}
+.home-actions {
+  display: flex;
+  align-items: center;
+  margin-top: -2px;
+}
+.readpact .home-actions button {
+  width: 44px;
+  height: 45px;
+  padding: 0;
+  background: transparent;
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.readpact .home-actions .home-profile {
+  width: 45px;
+  margin-left: 13px;
+  background: #e5dfef;
+  color: #555061;
+}
+.home-section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 29px 0 16px;
+}
+.readpact .home-section-head h1,
+.readpact .home-section-head h2 {
+  font-size: 25px;
+  line-height: 1.1;
+  font-weight: 850;
+  letter-spacing: -0.7px;
+}
+.readpact .home-section-head button {
+  min-height: 44px;
+  background: transparent;
+  color: #6f7078;
+  padding: 5px 0;
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+  font-weight: 400;
+}
+.home-section-head button svg {
+  margin-left: 5px;
+}
+.home-feature {
+  display: flex;
+  min-height: 164px;
+  align-items: flex-start;
+}
+.home-feature > img {
+  width: 109px;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 4px;
+  box-shadow: 0 10px 20px #1a1b1529;
+  flex-shrink: 0;
+}
+.home-feature-copy {
+  min-width: 0;
+  flex: 1;
+  margin-left: 18px;
+  padding-top: 5px;
+}
+.home-progress {
+  display: block;
+  color: #c59214;
+  font-size: 10px;
+  line-height: 15px;
+  font-weight: 800;
+  letter-spacing: 0.35px;
+}
+.readpact .home-feature-copy h2 {
+  margin: 7px 0 4px;
+  font:
+    800 20px/22px Georgia,
+    'Songti SC',
+    serif;
+  letter-spacing: -0.65px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.home-feature-copy > b {
+  display: block;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 760;
+}
+.readpact .home-feature-copy > p {
+  margin-top: 2px;
+  color: #75767d;
+  font-size: 10px;
+  line-height: 15px;
+}
+.home-period {
+  display: block;
+  margin-top: 2px;
+  font-size: 10px;
+  line-height: 14px;
+  color: #656860;
+  font-weight: 700;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.readpact .home-feature-cta {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 44px;
+  margin-top: 16px;
+  padding: 0;
+  overflow: hidden;
+  box-shadow: 0 8px 18px #11140f21;
+}
+.home-feature-cta > span {
+  width: 91px;
+  height: 39px;
+  margin-left: 2px;
+  flex-shrink: 0;
+  background: #fff;
+  border-radius: 999px;
+  box-shadow: inset 0 0 0 2px var(--ink);
+  color: var(--ink);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 15px;
+  font-weight: 850;
+}
+.home-feature-cta > b {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 15px;
+  font-weight: 850;
+  white-space: nowrap;
+}
+.home-feature-cta svg {
+  margin-left: 6px;
+}
+.readpact .home-proof {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: 50px;
+  margin-top: 18px;
+  border: 1px solid #e1e2df;
+  border-radius: 17px;
+  padding: 9px 12px;
+  background: #fff;
+  color: #3e403d;
+  font-size: 10px;
+  line-height: 1.45;
+  font-weight: 400;
+  text-align: left;
+}
+.home-proof > svg {
+  flex-shrink: 0;
+  color: #9b874b;
+}
+.home-proof > span {
+  margin: 0 8px;
+  flex: 1;
+}
+.home-shelves {
+  padding: 7px 18px 42px;
+}
+.home-shelves .home-section-head {
+  margin: 0 0 14px;
+  align-items: flex-end;
+}
+.home-shelves .home-section-head button {
+  font-size: 12px;
+  font-weight: 650;
+}
+.shelf-book {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  height: 156px;
+  min-height: 156px;
+  isolation: isolate;
+}
+.shelf-book + .shelf-book {
+  margin-top: 18px;
+}
+.shelf-book::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  left: 0;
+  right: 0;
+  top: 31px;
+  bottom: 1px;
+  border-radius: 3px 17px 17px 3px;
+  background: var(--book-tone);
+  box-shadow:
+    -4px 2px 0 0 #e8eaf0,
+    -8px 4px 0 0 #f1f2f6,
+    0 8px 22px #191b160f;
+}
+.shelf-book > img {
+  width: 94px;
+  height: 144px;
+  margin-left: 18px;
+  object-fit: cover;
+  border-radius: 3px;
+  box-shadow: 0 10px 18px #141a1433;
+  flex-shrink: 0;
+}
+.shelf-copy {
+  flex: 1;
+  min-width: 0;
+  padding: 34px 0 18px;
+  margin-left: 14px;
+  color: var(--book-accent);
+}
+.readpact .shelf-copy h3 {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  margin: 0 0 2px;
+  font:
+    800 14px/15px Georgia,
+    'Songti SC',
+    serif;
+  letter-spacing: -0.25px;
+}
+.shelf-copy > b {
+  display: block;
+  font-size: 11px;
+  line-height: 14px;
+  font-weight: 760;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.readpact .shelf-copy > p {
+  font-size: 9px;
+  line-height: 13px;
+  opacity: 0.65;
+}
+.shelf-status {
+  display: block;
+  margin-top: 2px;
+  font-size: 9px;
+  line-height: 12px;
+  font-weight: 750;
+}
+.shelf-copy small {
+  display: block;
+  margin-top: 4px;
+  color: #747670;
+  font-size: 9px;
+  line-height: 11px;
+}
+.readpact .shelf-action {
+  flex-shrink: 0;
+  width: 56px;
+  height: 44px;
+  padding: 0;
+  margin: 68px 8px 0;
+  font-size: 12px;
+  line-height: 1;
+  box-shadow: 0 7px 13px #11140f2e;
+}
+.reading-library {
+  display: flex;
+  background: #fffdf8;
+  min-height: 852px;
+}
+.library-rail {
+  width: 92px;
+  flex-shrink: 0;
+  background: #171a14;
+  color: #fff;
+  border-radius: 0 22px 0 0;
+  padding-top: 22px;
+}
+.readpact .library-rail > button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  margin-left: 20px;
+  background: #2b2e29;
+}
+.library-rail nav {
+  position: sticky;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 16px 0;
+}
+.readpact .library-rail nav button {
+  height: 116px;
+  padding: 0;
+  width: 92px;
+  background: transparent;
+  color: #8e9289;
+  font-size: 13px;
+  font-weight: 400;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+}
+.readpact .library-rail nav button[aria-pressed='true'] {
+  color: #fff;
+  font-weight: 750;
+}
+.library-feed {
+  min-width: 0;
+  flex: 1;
+  padding: 26px 12px 42px 26px;
+}
+.readpact .library-feed > h1 {
+  font-size: 24px;
+  line-height: 1.08;
+  font-weight: 850;
+  letter-spacing: -0.6px;
+}
+.readpact .library-intro {
+  margin-top: 8px;
+  font-size: 10px;
+  color: var(--muted);
+}
+.library-search {
+  display: flex;
+  align-items: center;
+  height: 44px;
+  margin: 16px 0 12px;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background: #fff;
+  padding-left: 10px;
+}
+.library-search input {
+  min-width: 0;
+  width: 100%;
+  border: 0;
+  background: transparent;
+  font-size: 11px;
+  padding: 8px;
+}
+.readpact .library-search button {
+  padding: 0;
+  width: 36px;
+  min-height: 40px;
+  background: transparent;
+  color: var(--ink);
+  flex-shrink: 0;
+}
+.readpact .library-live {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 10px;
+  margin-bottom: 20px;
+}
+.library-feed .shelf-book > img {
+  width: 75px;
+  height: 120px;
+  margin-left: -12px;
+}
+.library-feed .shelf-copy {
+  margin-left: 9px;
+  padding-top: 29px;
+}
+.library-feed .shelf-book {
+  height: 156px;
+  padding-bottom: 14px;
+}
+.library-feed .shelf-action {
+  position: absolute;
+  right: 0;
+  bottom: 5px;
+  min-height: 32px;
+  height: 32px;
+  width: 48px;
+  margin: 0 6px 0 0;
+}
+.library-feed .shelf-copy small {
+  max-width: 105px;
+}
+.book-preview {
+  padding: 22px 18px 36px;
+}
+.book-preview-art {
+  margin: 18px -18px 28px;
+  padding: 30px;
+  background: var(--book-tone);
+  text-align: center;
+}
+.book-preview-art img {
+  width: 150px;
+  height: 230px;
+  object-fit: cover;
+  border-radius: 4px;
+  box-shadow: 0 12px 25px #0003;
+}
+.book-preview-label {
+  font-size: 9px;
+  letter-spacing: 1.6px;
+  color: #777;
+}
+.readpact .book-preview h1 {
+  font:
+    800 30px/1.08 Georgia,
+    serif;
+  margin: 12px 0;
+}
+.readpact .book-preview h2 {
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+.readpact .book-preview p {
+  font-size: 12px;
+  color: var(--muted);
+}
+.book-preview-status {
+  padding: 18px 0;
+  margin: 20px 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.readpact .book-preview-status p {
+  margin-top: 6px;
+}
+.readpact .book-preview-link {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 12px;
+}
+@media (max-width: 360px) {
+  .home-feature > img {
+    width: 94px;
+    height: 144px;
+  }
+  .home-feature-copy {
+    margin-left: 12px;
+  }
+  .home-feature-cta > span {
+    width: 72px;
+    font-size: 13px;
+  }
+  .home-feature-cta > b {
+    font-size: 12px;
+  }
+  .readpact .home-feature-copy h2 {
+    font-size: 17px;
+  }
+  .shelf-book > img {
+    width: 80px;
+    height: 124px;
+    margin-left: 10px;
+  }
+  .shelf-copy {
+    margin-left: 10px;
+  }
+  .readpact .shelf-action {
+    width: 46px;
+    margin-left: 5px;
+  }
+  .library-rail {
+    width: 70px;
+  }
+  .readpact .library-rail nav button {
+    width: 70px;
+  }
+  .readpact .library-rail > button {
+    margin-left: 13px;
+  }
+}
+
+/* Book-led secondary screens from the supplied flow. */
+.readpact-create .editorial-header,
+.readpact-detail .editorial-header {
+  margin-bottom: 14px;
+}
+.readpact-create .create-book {
+  padding: 30px 18px;
+  background: var(--book-tone);
+  border-radius: 28px;
+  align-items: center;
+}
+.readpact-create .create-book img {
+  width: 109px;
+  height: 164px;
+}
+.readpact-create .create-book h2 {
+  font-size: 22px;
+}
+.readpact-create .create-form {
+  border: 0;
+  padding: 8px 0;
+}
+.readpact-detail .hero {
+  background: var(--book-tone);
+  padding: 18px;
+}
+.readpact-detail .detail-book {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  margin: 20px 0 26px;
+}
+.readpact-detail .detail-book img {
+  width: 132px;
+  height: 198px;
+  margin: 0 auto 13px;
+}
+.readpact-detail .detail-book .eyebrow {
+  font:
+    800 24px/1.1 Georgia,
+    serif;
+  text-transform: none;
+  letter-spacing: -0.5px;
+}
+.readpact-detail .detail-book h2 {
+  font:
+    750 15px/20px -apple-system,
+    BlinkMacSystemFont,
+    'PingFang SC',
+    sans-serif;
+  margin: 6px 0;
+}
+.readpact-detail .card {
+  border-radius: 20px;
+  padding: 16px;
+}
+.readpact-mine .account-profile {
+  padding: 16px;
+  border-radius: 24px;
+  background: #f0f2ed;
+}
+.readpact-mine .wallet-card {
+  border-radius: 25px;
+  padding: 18px;
+  margin-top: 12px;
+}
+.readpact-mine .wallet-balance {
+  font-size: 34px;
+}
+
+.readpact-create .view-heading h1 {
+  font-size: 25px;
+  line-height: 1.1;
+  letter-spacing: -0.6px;
+}
+.readpact-create .network {
+  display: none;
+}
+.readpact-create .create-book {
+  padding: 18px;
+  border-radius: 26px;
+  margin-bottom: 12px;
+}
+.readpact-create .create-book img {
+  width: 82px;
+  height: 123px;
+  margin-right: 21px;
+}
+.readpact-create .create-book h2 {
+  font-size: 19px;
+  line-height: 1.08;
+}
+.create-setup {
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  padding: 16px;
+  margin: 12px 0;
+}
+.readpact .create-setup h3 {
+  font-size: 13px;
+}
+.create-setup .row > span {
+  font-size: 9px;
+  color: var(--muted);
+}
+.mode-options {
+  display: flex;
+  margin: 12px 0;
+}
+.readpact .mode-options button {
+  flex: 1;
+  padding: 8px 4px;
+  border: 1px solid var(--line);
+  background: #fff;
+  color: var(--ink);
+  font-size: 10px;
+}
+.mode-options button + button {
+  margin-left: 8px;
+}
+.readpact .mode-options .on {
+  border-color: var(--book-accent);
+  background: var(--book-tone);
+}
+.readpact .create-setup > p {
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  font-size: 10px;
+  line-height: 1.6;
+}
+.create-rule {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  border-radius: 22px;
+  background: var(--ink);
+  color: #fff;
+  margin-bottom: 12px;
+}
+.create-rule strong {
+  font-size: 13px;
+}
+.readpact .create-rule p {
+  font-size: 9px;
+  line-height: 1.65;
+  margin-top: 5px;
+  color: #b6b9b1;
+}
+.create-rule > b {
+  margin-left: 15px;
+  flex-shrink: 0;
+  font:
+    850 29px/1 Georgia,
+    serif;
+}
+.create-rule small {
+  display: block;
+  font: 400 9px/1.5 sans-serif;
+}
+.readpact .create-submit {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 12px;
+  padding: 8px 10px 8px 18px;
+  min-height: 52px;
+  font-size: 13px;
+}
+.create-submit svg {
+  box-sizing: content-box;
+  padding: 7px;
+  background: var(--book-tone);
+  color: var(--ink);
+  border-radius: 50%;
+}
+
+/* Wavy rail is the original SVG asset extracted from the supplied HTML. */
+.library-rail {
+  position: relative;
+  background: #11140f;
+}
+.library-rail::after {
+  content: '';
+  position: absolute;
+  right: -14px;
+  top: 0;
+  bottom: 0;
+  width: 28px;
+  background-image: url('./assets/plaza-edge.svg');
+  background-position: center top;
+  background-size: 28px 124px;
+  background-repeat: repeat-y;
+  pointer-events: none;
+}
+.library-feed {
+  padding: 42px 0 50px 44px;
+}
+.library-feed > h1,
+.library-intro,
+.library-search,
+.library-live {
+  margin-right: 10px;
+}
+.readpact .library-live {
+  width: calc(100% - 10px);
+}
+.library-feed .shelf-book > img {
+  width: 94px;
+  height: 144px;
+  margin-left: 25px;
+}
+.library-feed .shelf-copy {
+  margin-left: 11px;
+  padding: 34px 8px 31px 0;
+}
+.library-feed .shelf-book::before {
+  border-radius: 3px 0 0 3px;
+}
+.library-feed .shelf-copy small {
+  font-size: 8px;
+}
+.readpact-create .create-book {
+  background: linear-gradient(130deg, var(--book-tone), #fff);
+}
+@media (max-width: 360px) {
+  .library-feed {
+    padding-left: 25px;
+  }
+  .library-feed .shelf-book > img {
+    width: 75px;
+    height: 120px;
+    margin-left: 12px;
+  }
+}
+/* Secondary screens follow the updated 1017 reference; home styles stay scoped above. */
+.readpact .library-feed > h1 {
+  padding-left: 12px;
+  margin-bottom: 12px;
+}
+.readpact .library-search {
+  margin-top: 0;
+  margin-bottom: 16px;
+}
+.readpact-mine .account-profile {
+  padding: 16px;
+  border-radius: 24px;
+  gap: 13px;
+}
+.readpact-mine .account-avatar {
+  width: 58px;
+  height: 58px;
+}
+.readpact-mine .account-profile h2 {
+  font-size: 18px;
+}
+.readpact-mine .account-profile p {
+  font-size: 10px;
+}
+.readpact-mine .wallet-card {
+  margin-top: 12px;
+  border-radius: 25px;
+  padding: 18px;
+}
+.readpact-mine .wallet-top {
+  font-size: 10px;
+}
+.readpact-mine .wallet-balance {
+  font-size: 34px;
+  margin: 9px 0;
+}
+.readpact-mine .wallet-meta {
+  gap: 8px;
+  margin-top: 14px;
+}
+.readpact-mine .wallet-meta > div {
+  padding: 9px;
+  border: 1px solid #383d34;
+  border-radius: 14px;
+}
+.readpact-mine .wallet-meta span {
+  font-size: 8px;
+}
+.readpact-mine .wallet-meta b {
+  font-size: 11px;
+}
+.readpact-mine .account-challenge {
+  width: 100%;
+  margin-top: 12px;
+  border-radius: 22px;
+  padding: 13px;
+  background: #f5f1d8;
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr) 24px;
+  gap: 10px;
+  text-align: left;
+  color: #171a10;
+  box-shadow: none;
+}
+.readpact-mine .account-challenge img {
+  width: 40px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 2px;
+}
+.readpact-mine .account-challenge strong {
+  display: block;
+  font:
+    800 13px/1.15 Georgia,
+    serif;
+}
+.readpact-mine .account-challenge small {
+  display: block;
+  margin-top: 3px;
+  color: #666a62;
+  font-size: 9px;
+}
+.readpact-mine .editorial-header {
+  margin-bottom: 16px;
+}
+.readpact-mine .account-profile {
+  background: linear-gradient(135deg, #edf5e7, #f5eff8);
+}
+.readpact-mine .account-avatar {
+  background: linear-gradient(145deg, #d8eff2, #e8d9ff 56%, #ffe0c7);
+}
+
+.opening-setup label {
+  display: block;
+  margin: 14px 0 8px;
+  font-size: 11px;
+}
+.readpact .opening-setup input {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #fff;
+  color: var(--ink);
+  font: inherit;
+  font-size: 13px;
+}
+
+.simulation-tag {
+  display: inline-block;
+  vertical-align: middle;
+  border: 1px solid #987846;
+  border-radius: 5px;
+  padding: 2px 5px;
+  font: 600 9px/1.2 sans-serif;
+  color: #735323;
+  background: #fff8e8;
+}
+.simulation-notice {
+  padding: 12px 16px;
+  margin: 0 0 10px;
+  background: #fff8e8;
+  border-bottom: 1px solid #e5d7ba;
+  color: #735323;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+/* Simulation creation reuses the real creation card and its bounded cover. */
+.simulation-create-flow {
+  padding: 0 18px 24px;
+}
+.simulation-create-flow > h1 {
+  margin: 16px 0;
+}
+.simulation-create-flow .create-book > div {
+  min-width: 0;
+}
+.simulation-create-flow .create-book h2 {
+  overflow-wrap: anywhere;
+}
+.simulation-create-flow > p {
+  font-size: 12px;
+  line-height: 1.7;
+}

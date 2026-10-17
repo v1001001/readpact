@@ -1,0 +1,20 @@
+{
+  "name": "readpact-contracts",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "compile": "node scripts/compile.mjs",
+    "test": "node --test test/*.test.mjs",
+    "deploy": "node scripts/deploy.mjs",
+    "wallets": "node scripts/wallets.mjs",
+    "testnet:smoke": "node scripts/testnet-smoke.mjs"
+  },
+  "dependencies": {
+    "ethers": "6.15.0",
+    "@openzeppelin/contracts": "5.4.0"
+  },
+  "devDependencies": {
+    "solc": "0.8.30",
+    "ganache": "7.9.2"
+  }
+}

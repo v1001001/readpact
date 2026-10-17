@@ -1,0 +1,43 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.iml
+*.swp
+
+# Node
+node_modules/
+dist/
+dist-ssr/
+*.local
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Java / Maven
+target/
+*.class
+*.log
+logs/
+hs_err_pid*
+
+# Env
+.env
+.env.local
+!.env.development
+!.env.production
+
+# OMC runtime
+.omc/state/
+.omc/sessions/
+.omc/logs/
+
+# ReadPact local secrets and runtime
+.private/
+.local/
+contracts/artifacts/
+back/data/

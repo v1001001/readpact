@@ -1,0 +1,168 @@
+{
+  "chainId": 10143,
+  "contract": "0xcfa9f2830f80Ce5ec4B8b76EB479F5b154AB35BB",
+  "startedAt": "2026-10-17T06:14:17.118Z",
+  "transactions": [
+    {
+      "label": "fund reader 1",
+      "hash": "0xe6cbbc1acf1003a3ea0267400c3fbe77199fd1894164ee986de7afde8850c531",
+      "block": 71746940,
+      "gasUsed": "21000"
+    },
+    {
+      "label": "fund reader 2",
+      "hash": "0xce9a52b44c4a8922a4966655ac371c9a45605c66f87709c269fefa76bfbf61ba",
+      "block": 71746946,
+      "gasUsed": "21000"
+    },
+    {
+      "label": "fund reader 3",
+      "hash": "0x10f1dbea66d781665d5f3497fa3729fdb69904c85ca17c6dcfba55a94b323ca9",
+      "block": 71746952,
+      "gasUsed": "21000"
+    },
+    {
+      "label": "create 3-round demo",
+      "hash": "0xb346131af9aff9ba67a2ee89febb60b30d8ce2f039e62a7d5938a6a7fa1c867b",
+      "block": 71746960,
+      "gasUsed": "118907"
+    },
+    {
+      "label": "reader 1 deposits 10 MON",
+      "hash": "0x73b149c421d1af51f61a33ae589f5d661daf0bebcba20b350a6f63bbc3904591",
+      "block": 71746970,
+      "gasUsed": "137984"
+    },
+    {
+      "label": "reader 2 deposits 10 MON",
+      "hash": "0xe0b158578585e4daa7c7ad8da61f4ccfc1274fe56f81e529a199324cfa820a42",
+      "block": 71746974,
+      "gasUsed": "103849"
+    },
+    {
+      "label": "reader 3 deposits 10 MON",
+      "hash": "0xcd664e5561f4ca935c65f3b45ab8d23b1542c85717e443a5fc8a337364fd8851",
+      "block": 71746978,
+      "gasUsed": "103849"
+    },
+    {
+      "label": "start challenge",
+      "hash": "0x31178801409dab87fc9c9f1170b62ddbda1c52b93113f2cefbac4c9af64f0314",
+      "block": 71746982,
+      "gasUsed": "60704"
+    },
+    {
+      "label": "reader 1 submits round 2",
+      "hash": "0x9f398952eba9e8eb3debefa54dda93650824c51be5d6585d804beeaec854aaf1",
+      "block": 71747388,
+      "gasUsed": "70957"
+    },
+    {
+      "label": "reader 2 witnesses reader 1 round 2",
+      "hash": "0xf82df2f748dff0277c0d660e86d6269a3e2b0d35d7f058ad09dbceb6f26be7ac",
+      "block": 71747393,
+      "gasUsed": "109463"
+    },
+    {
+      "label": "reader 3 witnesses reader 1 round 2",
+      "hash": "0xfedcc3d5351602b649633725789db2526512db1bf9548c8b62eb20643e704165",
+      "block": 71747403,
+      "gasUsed": "97995"
+    },
+    {
+      "label": "reader 2 submits round 2",
+      "hash": "0x749b7139cc09e7138be9474603b7240fb78118346e5fc1de6ea8d0886e40e94d",
+      "block": 71747413,
+      "gasUsed": "70957"
+    },
+    {
+      "label": "reader 1 witnesses reader 2 round 2",
+      "hash": "0xf4ff651e74cdc7fb18cd0f99f82f9098666c27d1f9ba4a53e75f77925b8a1f4e",
+      "block": 71747419,
+      "gasUsed": "109451"
+    },
+    {
+      "label": "reader 3 witnesses reader 2 round 2",
+      "hash": "0x9ead60eb07232244c55acdd5bceb2176ab3ca1852b2b3250ea59776d0ee5c9a5",
+      "block": 71747424,
+      "gasUsed": "97983"
+    },
+    {
+      "label": "reader 1 submits round 3",
+      "hash": "0x0702efe872c71d6a16f67906184d2de61e73fa1ea0e4872404043031a3273bd8",
+      "block": 71747786,
+      "gasUsed": "70957"
+    },
+    {
+      "label": "reader 2 witnesses reader 1 round 3",
+      "hash": "0x836e69fed5d3aaff858a54bb7e389c8240d3a4954c9caf70c58fd6cfca272656",
+      "block": 71747791,
+      "gasUsed": "109463"
+    },
+    {
+      "label": "reader 3 witnesses reader 1 round 3",
+      "hash": "0x38daccdb5b68223a5b516e9ec917c2cb97c4402a765e6a35d13d698a4ac6a1e4",
+      "block": 71747796,
+      "gasUsed": "97995"
+    },
+    {
+      "label": "reader 2 submits round 3",
+      "hash": "0x94e039a9138a4177d96b4aab2d714e29528bf92e6eb6494f873a06f8496137bc",
+      "block": 71747806,
+      "gasUsed": "70957"
+    },
+    {
+      "label": "reader 1 witnesses reader 2 round 3",
+      "hash": "0x61bfbccc01173c60d3173339c7afc42edb4a6ba277e5552158f0604fddd44e08",
+      "block": 71747811,
+      "gasUsed": "109451"
+    },
+    {
+      "label": "reader 3 witnesses reader 2 round 3",
+      "hash": "0xb56101c027852849886979b930c0f6299c2635f7078b89715f570422d1bc32e0",
+      "block": 71747815,
+      "gasUsed": "97983"
+    },
+    {
+      "label": "settle: 2 winners, 1 failure",
+      "hash": "0xa7fe524ffebf5cdde15e57d9b77f0ae56d4338fc642f8abda49e052b5a80557b",
+      "block": 71748383,
+      "gasUsed": "131871"
+    },
+    {
+      "label": "reader 1 claims 15 MON",
+      "hash": "0x53a484e4096ea3eafdba782b4a34598585fa077f515c6ac3b1c48290a31784c7",
+      "block": 71748393,
+      "gasUsed": "63260"
+    },
+    {
+      "label": "reader 2 claims 15 MON",
+      "hash": "0xea4835287bce9d5c0a57d0763dcdd5a2b767d64da36604c8a78d7a4f8aec0e26",
+      "block": 71748399,
+      "gasUsed": "63260"
+    }
+  ],
+  "status": "passed",
+  "challengeId": "1",
+  "completedAt": "2026-10-17T06:21:40.287Z",
+  "result": "3 deposits of 10 test MON; 2 readers completed 2/3 rounds with 2 distinct witnesses each; 2 claims of 15 test MON; failed reader claimable=0",
+  "balances": [
+    {
+      "address": "0x29A44048A9af4FD505F7Cf0665c58A39a914E32b",
+      "balance": "13.80919625"
+    },
+    {
+      "address": "0x6cc95B0766608584c862f47C7EC5Fe0551f97A8B",
+      "balance": "16.936478072"
+    },
+    {
+      "address": "0x6cB9d6155c6FC325c78bab4300AbBd59aBDFdc1a",
+      "balance": "16.946149202"
+    },
+    {
+      "address": "0xEd8b86fC84618764d690C5d87dc5BdffC7E85623",
+      "balance": "1.94942789"
+    }
+  ],
+  "recoveredIssue": "Initial backend SQL alias issue was fixed; resumed the same challenge in rounds 2 and 3 without duplicate deposits."
+}

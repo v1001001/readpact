@@ -1,0 +1,187 @@
+{
+  "chainId": 10143,
+  "contract": "0x242fF63A0276F88E1650aA4A64aAFB72e97a1a87",
+  "apiBase": "http://127.0.0.1:18085/api/readpact",
+  "startedAt": "2026-10-17T08:32:15.872Z",
+  "transactions": [
+    {
+      "label": "fund reader 3",
+      "hash": "0xc42a2d389e7e8d69acb8611666809674b699141494df647105052da0548df45e",
+      "block": 71774364,
+      "gasUsed": "21000"
+    },
+    {
+      "label": "create 3-round demo",
+      "hash": "0x2e40d2615224c2c0a0e73dad757352cfcaca2b67d8938dde8e9b40ac48ab3838",
+      "block": 71774377,
+      "gasUsed": "119795"
+    },
+    {
+      "label": "reader 1 deposits 10 MON",
+      "hash": "0x72ac131d3424ddb90a7cb10043433e78e48ce5daa8bf6ca86d6e1184c372774e",
+      "block": 71774386,
+      "gasUsed": "137984"
+    },
+    {
+      "label": "reader 2 deposits 10 MON",
+      "hash": "0x635ff0ef47e8b8804a58b731ec2e5effd1e22ae99237bcedf7e4187c8e22db6a",
+      "block": 71774393,
+      "gasUsed": "103849"
+    },
+    {
+      "label": "reader 3 deposits 10 MON",
+      "hash": "0x19be72cab45cb3108bee8d6cafc70d1be447091c71d39cdefb852914cdf856c4",
+      "block": 71774398,
+      "gasUsed": "103849"
+    },
+    {
+      "label": "start challenge",
+      "hash": "0x8a8842c8bcd938c26006ac8e5714204810046ebdb826b788f36e7d53e7c2dcc0",
+      "block": 71774406,
+      "gasUsed": "60681"
+    },
+    {
+      "label": "reader 1 submits round 1",
+      "hash": "0xbeceaf2ebef63ba82367fe00725ac5e955e65343fa4c2e1eb276cbc84ef68da2",
+      "block": 71774429,
+      "gasUsed": "70955"
+    },
+    {
+      "label": "reader 2 witnesses reader 1 round 1",
+      "hash": "0xc08c6595e67d1fa385b22131797f37cba5de273ee42f36e2ca65fb333e72362b",
+      "block": 71774435,
+      "gasUsed": "109417"
+    },
+    {
+      "label": "reader 3 witnesses reader 1 round 1",
+      "hash": "0x598d4e4004b1266d08312a5056104c3af2b5dd1642935b6aed3cd93df7496f14",
+      "block": 71774440,
+      "gasUsed": "97949"
+    },
+    {
+      "label": "reader 2 submits round 1",
+      "hash": "0x1ac41b788cc631d8bb64f3267ffb275b984b41458c5c70302dcae1c6b04ccf7a",
+      "block": 71774448,
+      "gasUsed": "70967"
+    },
+    {
+      "label": "reader 1 witnesses reader 2 round 1",
+      "hash": "0x2e61c99aa520b2e4761ed47afc9f59baa73bda6252f4320e76b269393806d6a5",
+      "block": 71774457,
+      "gasUsed": "109417"
+    },
+    {
+      "label": "reader 3 witnesses reader 2 round 1",
+      "hash": "0xa7b6e3244e96f579ca04faca956b60263769f267ec44db9dcd1295596ae7031b",
+      "block": 71774468,
+      "gasUsed": "97949"
+    },
+    {
+      "label": "reader 1 submits round 2",
+      "hash": "0xa0712d5c993b089e419b2a49153a333631ef4a097a96302607f69b70843135af",
+      "block": 71774816,
+      "gasUsed": "70979"
+    },
+    {
+      "label": "reader 2 witnesses reader 1 round 2",
+      "hash": "0xdf2654f467d928c566cc6be22dac09f05452e4e0c2e9c334549232dae3635107",
+      "block": 71774821,
+      "gasUsed": "109441"
+    },
+    {
+      "label": "reader 3 witnesses reader 1 round 2",
+      "hash": "0xb3823b3065916455f67b8d18b58847647b4a2a83e9891ff009fc6447d014bfca",
+      "block": 71774826,
+      "gasUsed": "97973"
+    },
+    {
+      "label": "reader 2 submits round 2",
+      "hash": "0xd7c3b133b3f4cce310fedc87c3070e63b39eb124fbf042992405a7d26bf822ae",
+      "block": 71774837,
+      "gasUsed": "70967"
+    },
+    {
+      "label": "reader 1 witnesses reader 2 round 2",
+      "hash": "0x9e3b75982f0a1fd9fe60fad6a2a069934cc8ee6cff85b74474b71f99be6ec9a1",
+      "block": 71774841,
+      "gasUsed": "109417"
+    },
+    {
+      "label": "reader 3 witnesses reader 2 round 2",
+      "hash": "0x0c32ab466dc7b84c935cf03e9dc0063bbebc93f5de7fc91f7c0241f598e6c857",
+      "block": 71774845,
+      "gasUsed": "97949"
+    },
+    {
+      "label": "settle: 2 winners, 1 failure",
+      "hash": "0x2114131665f49457a95d1c91c8a8254a2c245796ec0df201ffb2bd7136250e16",
+      "block": 71775806,
+      "gasUsed": "131849"
+    },
+    {
+      "label": "reader 1 claims 15 MON",
+      "hash": "0x35368a2a19a0a131c4f4847bedaba21e7d9c4317ac0d0dda42a09b63640dd91b",
+      "block": 71775817,
+      "gasUsed": "63260"
+    },
+    {
+      "label": "reader 2 claims 15 MON",
+      "hash": "0x7366e160272b97fb03a9e58cf94d875c5380ae79f435e619eb8b256442a78a91",
+      "block": 71775828,
+      "gasUsed": "63260"
+    },
+    {
+      "label": "create separate Ethereum book group",
+      "hash": "0x8df366279d6c43e9888e34d2b6d798f629efd6862cfdbcb13a0e6c062aea43f9",
+      "block": 71775835,
+      "gasUsed": "102728"
+    }
+  ],
+  "status": "passed",
+  "bookId": "0x507e42db2e1c823e02d5a91ad1a29d7f87f6c94d71db2eec2bf8c80b58660775",
+  "bookTitle": "Algorithms to Live By",
+  "challengeId": "1",
+  "submissions": [
+    {
+      "day": 0,
+      "wallet": "0x6cc95B0766608584c862f47C7EC5Fe0551f97A8B",
+      "contentHash": "0x85b4f8ec4a354b00203527782b1801ab1440e499b4193fd22d9603f3555723ff"
+    },
+    {
+      "day": 0,
+      "wallet": "0x6cB9d6155c6FC325c78bab4300AbBd59aBDFdc1a",
+      "contentHash": "0x1c56b7b05a22c114046f82a38ad27b22440202256baa6177362f40c3c9dfe0cb"
+    },
+    {
+      "day": 1,
+      "wallet": "0x6cc95B0766608584c862f47C7EC5Fe0551f97A8B",
+      "contentHash": "0x1c1037de40fa91fe0786298f2315230a5201e30b9f4cc135aa6772b697d95063"
+    },
+    {
+      "day": 1,
+      "wallet": "0x6cB9d6155c6FC325c78bab4300AbBd59aBDFdc1a",
+      "contentHash": "0xb10fb0193600548be901a3e6a584eab22596965aa11136d3131158713b588148"
+    }
+  ],
+  "secondChallengeId": "2",
+  "completedAt": "2026-10-17T08:39:47.535Z",
+  "result": "3 deposits of 10 test MON; 2 readers completed 2/3 rounds with 2 distinct witnesses each; 2 claims of 15 test MON; failed reader claimable=0",
+  "balances": [
+    {
+      "address": "0x29A44048A9af4FD505F7Cf0665c58A39a914E32b",
+      "balance": "3.538905838"
+    },
+    {
+      "address": "0x6cc95B0766608584c862f47C7EC5Fe0551f97A8B",
+      "balance": "16.756734692"
+    },
+    {
+      "address": "0x6cB9d6155c6FC325c78bab4300AbBd59aBDFdc1a",
+      "balance": "26.838456174"
+    },
+    {
+      "address": "0xEd8b86fC84618764d690C5d87dc5BdffC7E85623",
+      "balance": "1.949441762"
+    }
+  ]
+}

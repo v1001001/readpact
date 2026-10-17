@@ -1,0 +1,20 @@
+# ReadPact · 读书押金挑战
+
+Monad Blitz 参赛源码快照。
+
+演示：https://staff.dushu365.com/readpact/
+
+以 10 测试 MON 押金与两位同伴见证，帮助读者在 21 天完成 18 天共读。至少三人成组，多书籍独立挑战与同书基金。
+
+## 项目结构
+
+- front：React / TypeScript 前端
+- back：Spring Boot / MyBatis / Flyway 书目与阅读服务
+- contracts：Solidity 合约与测试
+- deployments：测试网部署及验证记录
+
+公开快照不包含本地钱包、部署凭据、内部运维文档或私有 Git 历史。运行真实签名接口需要自行配置后端签名账户；切勿使用真实资产。模拟界面明确标注且不扣款。
+
+## 本地运行
+
+Java 21、Maven、Node.js 20。后端：`cd back && mvn spring-boot:run`；前端：`cd front && npm ci && npm run dev`。部署所需配置请使用环境变量自行设置。

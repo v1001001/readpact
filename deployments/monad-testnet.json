@@ -1,0 +1,8 @@
+{
+  "chainId": 10143,
+  "contractAddress": "0xcfa9f2830f80Ce5ec4B8b76EB479F5b154AB35BB",
+  "transactionHash": "0x09aa110bd6fed85b7dbdfc25bd52eb3f627e9f9cc03def970c333f9043a2bcd5",
+  "blockNumber": 71746556,
+  "compiler": "0.8.30+commit.73712a01.Emscripten.clang",
+  "deployedAt": "2026-10-17T06:12:28.143Z"
+}

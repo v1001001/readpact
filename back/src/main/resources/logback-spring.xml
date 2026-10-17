@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+
+    <!--
+      日志配置来自 quick-starter-log。
+      启动参数支持（由 QuickLogEnvironmentPostProcessor 解析，自动推导目录）：
+        -Dlogpath=/abs/dir/app.log   推荐，直接给完整路径
+        -DLOG_FILE=/abs/dir/app.log  同义
+        -DLOG_PATH=/abs/dir          只给目录，文件名取 back.log
+      都没传 → ./logs/back.log
+      关闭 starter：quick.log.enabled=false
+    -->
+    <include resource="logback-quick-include.xml"/>
+
+    <root level="INFO">
+        <appender-ref ref="QUICK_CONSOLE"/>
+        <appender-ref ref="QUICK_FILE"/>
+    </root>
+</configuration>

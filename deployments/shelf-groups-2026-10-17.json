@@ -1,0 +1,64 @@
+{
+  "chainId": 10143,
+  "contract": "0x4286Fd2e5abEA0c784ea54ba033aDD34c38F6763",
+  "status": "passed",
+  "createdAt": "2026-10-17T10:03:19.584Z",
+  "groups": [
+    {
+      "slug": "ethereum-v1",
+      "bookId": "0xf7ac930b6990e1489bda30e123a0f7898a681cf110e43a6603b7e1854cfc6d06",
+      "id": "3",
+      "startsAt": 1792548000,
+      "participants": [
+        "0x6cc95B0766608584c862f47C7EC5Fe0551f97A8B"
+      ],
+      "poolMON": "10"
+    },
+    {
+      "slug": "algorithms-to-live-by-v1",
+      "bookId": "0x507e42db2e1c823e02d5a91ad1a29d7f87f6c94d71db2eec2bf8c80b58660775",
+      "id": "4",
+      "startsAt": 1792231496,
+      "participants": [
+        "0x6cc95B0766608584c862f47C7EC5Fe0551f97A8B",
+        "0x6cB9d6155c6FC325c78bab4300AbBd59aBDFdc1a",
+        "0xEd8b86fC84618764d690C5d87dc5BdffC7E85623"
+      ],
+      "poolMON": "30"
+    }
+  ],
+  "transactions": [
+    {
+      "label": "fund seed reader 3",
+      "hash": "0xcd80c65509a6a7c0afdf33b577efbd9c8592194f04c822e0c6690568edb99d98",
+      "block": 71792439,
+      "confirmed": true
+    },
+    {
+      "label": "create ethereum-v1 and deposit 10 MON",
+      "hash": "0xb76cb02729bdfbacc2fd91cfa19e3ed80c8e29a7832adfaf893d1ee2422cd683",
+      "block": 71792448,
+      "confirmed": true
+    },
+    {
+      "label": "create algorithms-to-live-by-v1 and deposit 10 MON",
+      "hash": "0xf028213ae6c9f298b39d0fd5986633e7d4c05cec6745fd44f273035694948b10",
+      "block": 71792460,
+      "confirmed": true
+    },
+    {
+      "label": "reader 2 joins algorithms",
+      "hash": "0xc23d2180c924a6b1a5bf8e4f3cbe4b345c9b0f91190a552acce9e3345711e4b5",
+      "block": 71792469,
+      "confirmed": true
+    },
+    {
+      "label": "reader 3 joins algorithms",
+      "hash": "0xe9c1e93a1a7593c0930e5e4408718bc8cef90d502ca70038732882be1f37e026",
+      "block": 71792474,
+      "confirmed": true
+    }
+  ],
+  "note": "Real testnet seed members controlled by dedicated test wallets; other six books are explicitly simulated in UI.",
+  "completedAt": "2026-10-17T10:05:00.179Z"
+}
