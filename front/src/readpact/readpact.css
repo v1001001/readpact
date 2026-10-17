@@ -964,3 +964,27 @@ body {
 .metamask-download svg {
   margin-left: 5px;
 }
+
+.payment-history {
+  margin: 24px 0;
+  padding: 24px;
+  border: 1px solid #e5e5df;
+  border-radius: 24px;
+}
+.payment-history p,
+.payment-history span {
+  color: #777c72;
+  font-size: 13px;
+}
+.payment-history article {
+  padding: 16px 0;
+  border-top: 1px solid #e5e5df;
+}
+.payment-history article > * {
+  display: block;
+  margin-bottom: 6px;
+}
+.payment-history a {
+  color: #647653;
+  overflow-wrap: anywhere;
+}

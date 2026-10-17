@@ -1,6 +1,5 @@
+import { paymentKey, readPayments, savePayment } from '@/readpact/payment-history'
 import { loadGroupList, loadGroupDetail, type GroupReader } from '@/readpact/group-loading'
-import AlgorithmDemo from '@/readpact/AlgorithmDemo'
-import { demoProgressKey, getDemoProgress, completedDemoDays } from '@/api/reading-demo'
 import { useEffect, useState, type CSSProperties } from 'react'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
@@ -42,8 +41,6 @@ import EditorialHome from '@/readpact/EditorialHome'
 import ChallengeFlow from '@/readpact/ChallengeFlow'
 import { getReadingBooks, checkReadingAnswer } from '@/api/readpact'
 import { countBookReaders } from '@/readpact/book-readers'
-import DemoChallenge from '@/readpact/DemoChallenge'
-import { demoBook } from '@/readpact/demo-books'
 import type { ReadingBook } from '@/readpact/books'
 export interface Group {
   id: string
@@ -153,11 +150,6 @@ export default function ReadPact() {
   const [browseOrigin, setBrowseOrigin] = useState<'home' | 'library'>(
     new URLSearchParams(location.search).get('from') === 'library' ? 'library' : 'home',
   )
-  const [simulation, setSimulation] = useState<{
-    bookId: string
-    create: boolean
-    from: 'home' | 'library'
-  } | null>(null)
   const [walletGroup, setWalletGroup] = useState(selected)
   const invitation = new URL('https://staff.dushu365.com/readpact/')
   if (walletGroup) {
@@ -171,6 +163,8 @@ export default function ReadPact() {
   const [busy, setBusy] = useState('')
   const [error, setError] = useState('')
   const [txHash, setTxHash] = useState('')
+  const [paymentRevision, setPaymentRevision] = useState(0)
+  const [paymentStorageError, setPaymentStorageError] = useState(false)
   const [now, setNow] = useState(Math.floor(Date.now() / 1000))
   const [demo, setDemo] = useState(false)
   const localTime = (timestamp: number) => {
@@ -214,10 +208,6 @@ export default function ReadPact() {
   const bookFor = (g: Group): ReadingBook | undefined =>
     books.find((book) => book.id.toLowerCase() === g.bookId.toLowerCase())
   const createBook = (id: string, from: 'home' | 'library' = 'home') => {
-    if (demoBook(books.find((book) => book.id === id)?.slug ?? '')) {
-      setSimulation({ bookId: id, create: true, from })
-      return
-    }
     setBrowseOrigin(from)
     setSelectedBookId(id)
     navigate('create')
@@ -330,6 +320,31 @@ export default function ReadPact() {
     setTxHash(tx.hash)
     const receipt = await tx.wait()
     if (!receipt || receipt.status !== 1) throw Error('交易未成功，请重试')
+    for (const log of receipt.logs) {
+      if (log.address.toLowerCase() !== config.contractAddress.toLowerCase()) continue
+      const event = c.interface.parseLog({ topics: [...log.topics], data: log.data })
+      if (event?.name !== 'Joined') continue
+      const wallet = String(event.args.participant)
+      if (wallet.toLowerCase() !== tx.from.toLowerCase()) continue
+      let saved = false
+      try {
+        saved = savePayment(
+          localStorage,
+          paymentKey(config.chainId, config.contractAddress, wallet),
+          {
+            hash: receipt.hash,
+            groupId: String(event.args.id),
+            wallet,
+            amount: String(event.args.amount),
+            blockNumber: receipt.blockNumber,
+          },
+        )
+      } catch {
+        /* Storage access can be disabled by the browser. */
+      }
+      setPaymentStorageError(!saved)
+      setPaymentRevision((value) => value + 1)
+    }
     return receipt
   }
   function choose(id: string, from: 'home' | 'library' = 'home', checkin = false) {
@@ -398,9 +413,35 @@ export default function ReadPact() {
     chain.data?.filter((g) =>
       g.people.some((p) => p.address.toLowerCase() === account.toLowerCase()),
     ) ?? []
-  const algorithm = books.find((book) => book.slug === 'algorithms-to-live-by-v1')
-  const demoProgress = useQuery({ queryKey: demoProgressKey, queryFn: getDemoProgress })
+  const spotlight =
+    myGroups.find((g) => !g.settled) ??
+    chain.data?.find(
+      (g) =>
+        !g.settled &&
+        g.startedAt > 0 &&
+        now >= g.startedAt &&
+        now < g.startedAt + g.totalDays * g.periodSeconds,
+    )
   const locked = myGroups.filter((g) => !g.settled).length * 10
+  const paymentHistory = useQuery({
+    queryKey: [
+      'local-payments',
+      config?.chainId,
+      config?.contractAddress,
+      account,
+      paymentRevision,
+    ],
+    queryFn: () => {
+      try {
+        return config
+          ? readPayments(localStorage, paymentKey(config.chainId, config.contractAddress, account))
+          : []
+      } catch {
+        return []
+      }
+    },
+    enabled: Boolean(config && account && view === 'mine'),
+  })
   const claimable = accountClaims.data
 
   const status = (g: Group) =>
@@ -473,7 +514,7 @@ export default function ReadPact() {
         <span className="book-en">{bookFor(g)?.title ?? t('未知书籍')}</span>
         <b>{bookFor(g)?.name ?? t('未知书籍')}</b>
         <small>
-          #{g.id} · {g.demo ? t('现场演示') : t('21 天挑战')} · {status(g)}
+          #{g.id} · {g.demo ? t('快速共读') : t('21 天挑战')} · {status(g)}
         </small>
         <span className="group-people">
           <Users size={13} />
@@ -486,51 +527,6 @@ export default function ReadPact() {
     </button>
   )
 
-  if (
-    algorithm &&
-    (simulation?.bookId === algorithm.id ||
-      new URLSearchParams(location.search).get('demo') === 'algorithms')
-  )
-    return (
-      <main className="readpact readpact-detail">
-        <AlgorithmDemo
-          book={algorithm}
-          onBack={() => {
-            const url = new URL(location.href)
-            url.searchParams.delete('demo')
-            history.replaceState(null, '', url)
-            setSimulation(null)
-            navigate('home')
-          }}
-        />
-      </main>
-    )
-  if (view === 'create' && selectedBook && demoBook(selectedBook.slug))
-    return (
-      <main className="readpact readpact-detail">
-        <DemoChallenge
-          key={`create-${selectedBook.id}`}
-          book={selectedBook}
-          create
-          onBack={backToBrowse}
-        />
-      </main>
-    )
-  const simulationBook = simulation && books.find((book) => book.id === simulation.bookId)
-  if (simulation && simulationBook && demoBook(simulationBook.slug))
-    return (
-      <main className="readpact readpact-detail">
-        <DemoChallenge
-          key={`${simulation.bookId}-${simulation.create}`}
-          book={simulationBook}
-          create={simulation.create}
-          onBack={() => {
-            setSimulation(null)
-            window.scrollTo(0, 0)
-          }}
-        />
-      </main>
-    )
   return (
     <main
       className={`readpact readpact-${view}`}
@@ -597,7 +593,7 @@ export default function ReadPact() {
       )}
       {configQuery.isError && <p className="error">{t('无法连接后端，请检查服务是否启动。')}</p>}
       {config && !config.contractAddress && (
-        <p className="notice">{t('合约正在部署配置中；当前没有模拟交易。')}</p>
+        <p className="notice">{t('合约配置尚未就绪，暂时无法发起或加入。')}</p>
       )}
       {error && (
         <p className="error" role="alert">
@@ -628,7 +624,7 @@ export default function ReadPact() {
       )}
       {oldInvitation && (
         <p className="notice">
-          {t('这是旧版测试小组链接。项目已切换定时共读版本，请从新版书架重新发起或加入。')}
+          {t('这是旧版小组链接。项目已切换定时共读版本，请从新版书架重新发起或加入。')}
         </p>
       )}
       {view === 'home' &&
@@ -662,28 +658,29 @@ export default function ReadPact() {
               open: !g.settled && now < g.joinUntil && g.people.length < 10,
             }))}
             onGroup={choose}
-            onDemo={(bookId, create, from) => {
-              setSimulation({ bookId, create, from })
-              window.scrollTo(0, 0)
-            }}
             now={now}
             onAccount={() => navigate('mine')}
             onGroups={() => navigate('groups')}
             onCreate={createBook}
             activeChallenge={
-              algorithm
+              spotlight && bookFor(spotlight)
                 ? {
-                    owned: true,
-                    dayLabel: '第 21 天',
-                    cover: algorithm.cover,
-                    title: algorithm.title,
-                    name: algorithm.name,
-                    progress: demoProgress.data
-                      ? `已打卡 ${completedDemoDays(demoProgress.data).length} / 18 天`
-                      : '正在读取进度…',
-                    period: '9月27日开始 · 第 21 天',
+                    owned: myGroups.some((g) => g.id === spotlight.id),
+                    cover: bookFor(spotlight)!.cover,
+                    title: bookFor(spotlight)!.title,
+                    name: bookFor(spotlight)!.name,
+                    progress: `${spotlight.people.length} 位读者共同阅读`,
+                    period: `#${spotlight.id} · ${status(spotlight)}`,
+                    dayLabel:
+                      spotlight.startedAt > 0 && now >= spotlight.startedAt
+                        ? `第 ${Math.min(spotlight.totalDays, Math.floor((now - spotlight.startedAt) / spotlight.periodSeconds) + 1)} ${spotlight.demo ? '轮' : '天'}`
+                        : '待开读',
                     onOpen: () =>
-                      setSimulation({ bookId: algorithm.id, create: false, from: 'home' }),
+                      choose(
+                        spotlight.id,
+                        'home',
+                        spotlight.startedAt > 0 && now >= spotlight.startedAt,
+                      ),
                   }
                 : undefined
             }
@@ -794,7 +791,7 @@ export default function ReadPact() {
                 : '—'}{' '}
               <small>MON</small>
             </div>
-            <p>{t('测试网余额')}</p>
+            <p>{t('钱包余额')}</p>
             {!account ? (
               walletButton()
             ) : (
@@ -817,6 +814,40 @@ export default function ReadPact() {
                 <b>{account && claimable !== undefined ? formatEther(claimable) : '—'} MON</b>
               </div>
             </div>
+          </section>
+          <section className="payment-history">
+            <h2>{t('本机扣款记录')}</h2>
+            <p>{t('发起与加入成功后的押金回执，不含手续费。最多保留最近 100 笔。')}</p>
+            {!account ? (
+              <p>{t('连接钱包后查看记录')}</p>
+            ) : (
+              <>
+                {!paymentHistory.data?.length && <p>{t('本机暂无成功扣款记录')}</p>}
+                {paymentHistory.data?.map((record) => (
+                  <article key={record.hash}>
+                    <strong>
+                      {t('小组')} #{record.groupId} · −{formatEther(record.amount)} MON
+                    </strong>
+                    <span>
+                      {t('链上已确认')} · {t('区块')} {record.blockNumber}
+                    </span>
+                    <a
+                      href={`${config?.explorer}/tx/${record.hash}`}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      {short(record.hash)} ↗
+                    </a>
+                  </article>
+                ))}
+                <a href={`${config?.explorer}/address/${account}`} target="_blank" rel="noreferrer">
+                  {t('查看钱包全部链上记录')} ↗
+                </a>
+              </>
+            )}
+            {paymentStorageError && (
+              <p>{t('扣款已成功，但浏览器未能保存本机记录，请通过最近交易链接查看回执。')}</p>
+            )}
           </section>
           {balance.isError && <p className="error">{t('余额读取失败，请稍后重试。')}</p>}
           <section className="mobile-wallet-entry">
@@ -866,7 +897,7 @@ export default function ReadPact() {
             </span>
           </div>
           <button className="secondary" onClick={() => choose('4', 'home')}>
-            算法之美 · 真实小组 #4（链上记录）
+            算法之美 · 小组 #4（链上记录）
           </button>
           <div className="account-challenges">
             {myGroups.map((g) => (
@@ -924,7 +955,7 @@ export default function ReadPact() {
                 aria-pressed={demo}
                 onClick={() => changeMode(true)}
               >
-                {t('3 轮 · 现场演示')}
+                {t('3 轮 · 快速共读')}
               </button>
             </div>
             <p>
@@ -1139,7 +1170,7 @@ export default function ReadPact() {
         />
       )}
       <footer>
-        {t('真实小组使用测试币合约；演示体验不扣款。')}
+        {t('发起或加入需钱包签名并缴纳 10 MON，另需网络手续费。')}
         {config?.contractAddress && (
           <a
             href={`${config.explorer}/address/${config.contractAddress}`}

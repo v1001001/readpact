@@ -3,7 +3,6 @@ import { ArrowLeft, ArrowRight, ChevronRight, Search, UserRound, Medal, X } from
 import { useTranslation } from 'react-i18next'
 import { type ReadingBook } from '@/readpact/books'
 import '@/readpact/editorial-home.css'
-import { demoBook } from '@/readpact/demo-books'
 
 const categories = [
   ['all', 'All Books'],
@@ -32,7 +31,6 @@ export default function EditorialHome({
   bookReaders,
   groupsLoading,
   onGroup,
-  onDemo,
 }: {
   groups: {
     id: string
@@ -45,7 +43,6 @@ export default function EditorialHome({
     active: boolean
     open: boolean
   }[]
-  onDemo: (bookId: string, create: boolean, from: 'home' | 'library') => void
   groupsLoading: boolean
   bookReaders: Record<string, number>
   onGroup: (id: string, from?: 'home' | 'library', checkin?: boolean) => void
@@ -107,32 +104,11 @@ export default function EditorialHome({
   const bookStyle = (book: ReadingBook) =>
     ({ '--book-tone': book.tone, '--book-accent': book.accent }) as CSSProperties
   const bookCard = (book: ReadingBook) => {
-    const preset = demoBook(book.slug)
     const group =
       groups.find((g) => g.bookId === book.id && g.joined) ??
       groups.find((g) => g.bookId === book.id && g.open) ??
       groups.find((g) => g.bookId === book.id && g.active)
     const target = createOnly && page === 'library' ? undefined : group
-    const action =
-      !preset && groupsLoading
-        ? t('读取中')
-        : preset?.slug === 'algorithms-to-live-by-v1'
-          ? page === 'home'
-            ? t('去打卡')
-            : t('查看')
-          : preset
-            ? (createOnly && page === 'library') || preset.people === 0
-              ? t('发起')
-              : t('加入')
-            : target
-              ? target.active
-                ? page === 'home'
-                  ? t('去打卡')
-                  : t('查看')
-                : target.joined
-                  ? t('查看')
-                  : t('加入')
-              : t('发起')
     return (
       <article className="shelf-book" key={book.id} style={bookStyle(book)}>
         <img src={book.cover} alt={t('{{name}}封面', { name: book.name })} loading="lazy" />
@@ -141,34 +117,28 @@ export default function EditorialHome({
           <b>{t(book.name)}</b>
           <p>{book.categories.map((key) => t(categoryNames[key])).join(' · ')}</p>
           <span className="shelf-status">
-            {preset
-              ? preset.startLabel
-              : target
-                ? `${new Date(target.startsAt * 1000).toLocaleString([], { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' })} ${t('开读')}`
-                : t('21 天 · 10 MON 押金')}
+            {target
+              ? `${new Date(target.startsAt * 1000).toLocaleString([], { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' })} ${t('开读')}`
+              : t('21 天 · 10 MON 押金')}
           </span>
-          <small>
-            {t('本书 {{count}} 人在读', { count: preset?.readers ?? bookReaders[book.id] ?? 0 })}
-          </small>
-          {(preset || target) && (
+          <small>{t('本书 {{count}} 人在读', { count: bookReaders[book.id] ?? 0 })}</small>
+          {target && (
             <small>
-              {t('本组 {{count}} 人', { count: preset?.people ?? target?.people ?? 0 })} ·{' '}
-              {preset ? preset.people * 10 : target?.pool} MON
+              {t('本组 {{count}} 人', { count: target?.people ?? 0 })} · {target?.pool} MON
             </small>
           )}
         </div>
         <button
           className="shelf-action"
-          disabled={!preset && groupsLoading}
+          disabled={groupsLoading}
           aria-label={t('打开《{{name}}》挑战', { name: book.name })}
           onClick={() => {
             const from = page === 'library' ? 'library' : 'home'
-            if (preset) onDemo(book.id, action === t('发起'), from)
-            else if (target) onGroup(target.id, from, target.active && page === 'home')
+            if (target) onGroup(target.id, from, target.active && page === 'home')
             else onCreate(book.id, from)
           }}
         >
-          {action}
+          {t('加入')}
         </button>
       </article>
     )
@@ -194,7 +164,7 @@ export default function EditorialHome({
           <b>{selected.challengeEnabled ? t('21 天 · 完成 18 天') : t('挑战即将开放')}</b>
           <p>
             {selected.challengeEnabled
-              ? t('每人 10 MON 测试币押金，3–10 人一起读。')
+              ? t('每人 10 MON 押金，3–10 人一起读。')
               : t('这本书暂未开放入金和打卡。')}
           </p>
         </div>

@@ -125,7 +125,7 @@ export async function signer(config: Config) {
     })
   }
   const p = walletProvider()
-  if ((await p.getNetwork()).chainId !== 10143n) throw Error('仅允许 Monad 测试网')
+  if ((await p.getNetwork()).chainId !== 10143n) throw Error('请切换至 Monad Testnet')
   const s = await p.getSigner()
   useWallet.setState({ account: await s.getAddress() })
   return s

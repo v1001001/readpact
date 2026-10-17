@@ -12,8 +12,6 @@ import { flowTheme } from '@/readpact/flow-theme'
 
 type Person = Group['people'][number]
 interface Props {
-  simulation?: boolean
-  initialPage?: 'checkin' | 'detail'
   group: Group
   book?: ReadingBook
   account: string
@@ -51,15 +49,14 @@ export default function ChallengeFlow(p: Props) {
   const { group: g, book, me, now, day, busy } = p
   const initialPanel = new URLSearchParams(location.search).get('panel')
   const [page, setPage] = useState<'detail' | 'checkin' | 'settle'>(
-    p.initialPage ??
-      (initialPanel === 'settle' || initialPanel === 'checkin' ? initialPanel : 'detail'),
+    initialPanel === 'settle' || initialPanel === 'checkin' ? initialPanel : 'detail',
   )
   const go = (next: typeof page) => {
     setPage(next)
     const url = new URL(location.href)
     if (next === 'detail') url.searchParams.delete('panel')
     else url.searchParams.set('panel', next)
-    if (!p.simulation) history.replaceState(null, '', url)
+    history.replaceState(null, '', url)
     window.scrollTo(0, 0)
   }
   const waiting = !g.settled && now < g.joinUntil
@@ -127,9 +124,7 @@ export default function ChallengeFlow(p: Props) {
           : expired
             ? t('组队过期，解锁退款')
             : !me
-              ? p.simulation
-                ? t('加入（不扣款）')
-                : t('锁定 10 MON，加入挑战')
+              ? t('锁定 10 MON，加入挑战')
               : g.people.length < 3
                 ? t('等待更多读者加入')
                 : t('已成组，等待开读')
@@ -182,19 +177,11 @@ export default function ChallengeFlow(p: Props) {
               {shownPeople.map((person) => (
                 <div className="detail-member" key={person.address}>
                   {avatar(person)}
-                  <b>
-                    {p.simulation
-                      ? person.address === p.account
-                        ? t('你')
-                        : `${t('读者')} ${Number.parseInt(person.address.slice(-2), 16)}`
-                      : short(person.address)}
-                  </b>
+                  <b>{short(person.address)}</b>
                   <small>
-                    {p.simulation
-                      ? t('同组读者')
-                      : person.address.toLowerCase() === p.account.toLowerCase()
-                        ? t('当前账号')
-                        : t('同组读者')}
+                    {person.address.toLowerCase() === p.account.toLowerCase()
+                      ? t('当前账号')
+                      : t('同组读者')}
                   </small>
                 </div>
               ))}
@@ -252,7 +239,7 @@ export default function ChallengeFlow(p: Props) {
               )}
             </p>
           </aside>
-          {waiting && !p.simulation && (
+          {waiting && (
             <section className="invitation-note">
               <label htmlFor="invitation-url">{t('邀请朋友一起读')}</label>
               <input id="invitation-url" readOnly value={invitation} />
@@ -418,9 +405,7 @@ export default function ChallengeFlow(p: Props) {
                             disabled={busy || p.reflection.trim().length < 10}
                             onClick={p.onSubmit}
                           >
-                            {p.simulation
-                              ? t('提交，等待共读者确认')
-                              : t('签名提交，等待共读者确认')}
+                            {t('签名提交，等待共读者确认')}
                             <ArrowRight size={20} />
                           </button>
                         </div>
@@ -448,11 +433,9 @@ export default function ChallengeFlow(p: Props) {
                   <p>
                     {entry?.done
                       ? t('两位同伴已确认，你的进度已更新。')
-                      : p.simulation
-                        ? t('感想已保存，等待两位同伴确认。')
-                        : t('感想已上链，等待两位不同的已入金同伴确认。')}
+                      : t('感想已上链，等待两位不同的已入金同伴确认。')}
                   </p>
-                  {!p.simulation && <div className="chain-receipt">{short(entry?.hash ?? '')}</div>}
+                  <div className="chain-receipt">{short(entry?.hash ?? '')}</div>
                 </article>
               )}
               <details className="witness-panel" open={step === 3 || !me}>
