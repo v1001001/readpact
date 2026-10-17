@@ -1,5 +1,9 @@
 # ReadPact · 读书押金挑战
 
+<p align="center">
+  <img src="docs/readpact/design/readpact-cover.jpg" alt="文化赌徒：赌这次，我真的能把这本书读完" width="470">
+</p>
+
 Monad Blitz 参赛源码快照。
 
 演示：https://staff.dushu365.com/readpact/
