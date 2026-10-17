@@ -1,3 +1,4 @@
+import { loadGroupList, loadGroupDetail, type GroupReader } from '@/readpact/group-loading'
 import AlgorithmDemo from '@/readpact/AlgorithmDemo'
 import { demoProgressKey, getDemoProgress, completedDemoDays } from '@/api/reading-demo'
 import { useEffect, useState, type CSSProperties } from 'react'
@@ -65,70 +66,6 @@ export interface Group {
     claimable: bigint
     days: { hash: string; count: number; done: boolean; witnessed: boolean }[]
   }[]
-}
-async function loadGroups(config: Config, account: string, selected: string) {
-  const c = readContract(config)
-  const count = Number(await c.challengeCount())
-  const groups: Group[] = []
-  const chainNow = Number((await c.runner!.provider!.getBlock('latest'))!.timestamp)
-  for (let id = count; id > 0; id--) {
-    const g = await c.challenges(id)
-    const addresses = (await c.getParticipants(id)) as string[]
-    const visibleDays =
-      Number(g.startedAt) > 0
-        ? Math.max(
-            0,
-            Math.min(
-              Number(g.totalDays),
-              Math.floor((chainNow - Number(g.startedAt)) / Number(g.periodSeconds)) + 1,
-            ),
-          )
-        : 0
-    const people = await Promise.all(
-      addresses.map(async (address) => {
-        const m = await c.members(id, address)
-        const days = await Promise.all(
-          Array.from({ length: String(id) === selected ? visibleDays : 0 }, async (_, day) => {
-            const e = await c.entries(id, address, day)
-            return {
-              hash: String(e.contentHash),
-              count: Number(e.confirmations),
-              done: Boolean(e.completed),
-              witnessed: account ? Boolean(await c.witnessed(id, address, day, account)) : false,
-            }
-          }),
-        )
-        return { address, completed: Number(m.completed), claimable: BigInt(m.claimable), days }
-      }),
-    )
-    groups.push({
-      id: String(id),
-      bookId: String(g.bookId),
-      creator: String(g.creator),
-      startedAt: Number(g.startedAt),
-      joinUntil: Number(g.joinUntil),
-      periodSeconds: Number(g.periodSeconds),
-      graceSeconds: Number(g.graceSeconds),
-      totalDays: Number(g.totalDays),
-      requiredDays: Number(g.requiredDays),
-      demo: Boolean(g.demo),
-      settled: Boolean(g.settled),
-      cancelled: Boolean(g.cancelled),
-      pool: BigInt(g.pool),
-      reservedFund: BigInt(g.reservedFund),
-      people,
-    })
-  }
-  return {
-    groups,
-    bookReaders: countBookReaders(
-      groups.map((group) => ({
-        ...group,
-        addresses: group.people.map((person) => person.address),
-      })),
-      chainNow,
-    ),
-  }
 }
 function Reflection({
   hash,
@@ -203,13 +140,15 @@ export default function ReadPact() {
     oldInvitation ? '' : (new URLSearchParams(location.search).get('group') ?? ''),
   )
   const [view, setView] = useState<'home' | 'mine' | 'create' | 'detail' | 'groups'>(
-    new URLSearchParams(location.search).get('view') === 'mine'
-      ? 'mine'
-      : new URLSearchParams(location.search).get('view') === 'create'
-        ? 'create'
-        : selected
-          ? 'detail'
-          : 'home',
+    new URLSearchParams(location.search).get('view') === 'groups'
+      ? 'groups'
+      : new URLSearchParams(location.search).get('view') === 'mine'
+        ? 'mine'
+        : new URLSearchParams(location.search).get('view') === 'create'
+          ? 'create'
+          : selected
+            ? 'detail'
+            : 'home',
   )
   const [browseOrigin, setBrowseOrigin] = useState<'home' | 'library'>(
     new URLSearchParams(location.search).get('from') === 'library' ? 'library' : 'home',
@@ -290,12 +229,61 @@ export default function ReadPact() {
   }
 
   const chain = useQuery({
-    queryKey: ['groups', config?.contractAddress, account, selected],
-    queryFn: () => loadGroups(config!, account, selected),
+    queryKey: ['groups', config?.chainId, config?.contractAddress, config?.rpcUrl],
+    queryFn: () => loadGroupList(readContract(config!) as unknown as GroupReader),
     enabled: Boolean(config?.contractAddress),
-    refetchInterval: 8000,
+    staleTime: 60000,
+    gcTime: 600000,
+    refetchInterval: 60000,
+    retry: 1,
   })
-  const group = chain.data?.groups.find((g) => g.id === selected)
+  const summary = chain.data?.find((g) => g.id === selected)
+  const detail = useQuery({
+    queryKey: [
+      'group-detail',
+      config?.chainId,
+      config?.contractAddress,
+      config?.rpcUrl,
+      selected,
+      account.toLowerCase(),
+      summary?.people.map((p) => p.address).join(','),
+      summary?.settled,
+    ],
+    queryFn: () =>
+      loadGroupDetail(readContract(config!) as unknown as GroupReader, summary!, account, now),
+    enabled: Boolean(config && summary && view === 'detail'),
+    staleTime: 15000,
+    gcTime: 600000,
+    refetchInterval: view === 'detail' ? 30000 : false,
+    retry: 1,
+  })
+  const group = detail.data
+  const bookReaders = countBookReaders(
+    (chain.data ?? []).map((g) => ({ ...g, addresses: g.people.map((p) => p.address) })),
+    now,
+  )
+  const accountClaims = useQuery({
+    queryKey: [
+      'group-claims',
+      config?.chainId,
+      config?.contractAddress,
+      account.toLowerCase(),
+      chain.dataUpdatedAt,
+    ],
+    queryFn: async () => {
+      const c = readContract(config!)
+      const own = (chain.data ?? []).filter((g) =>
+        g.people.some((p) => p.address.toLowerCase() === account.toLowerCase()),
+      )
+      const amounts = await Promise.all(
+        own.map(async (g) => BigInt((await c.members(g.id, account)).claimable)),
+      )
+      return amounts.reduce((sum, value) => sum + value, 0n)
+    },
+    enabled: Boolean(config && account && chain.data && view === 'mine'),
+    staleTime: 30000,
+    retry: 1,
+  })
   const me = group?.people.find((p) => p.address.toLowerCase() === account.toLowerCase())
   const elapsed =
     group && group.startedAt ? Math.floor((now - group.startedAt) / group.periodSeconds) : -1
@@ -320,7 +308,11 @@ export default function ReadPact() {
     setError('')
     try {
       await action()
-      await client.invalidateQueries({ queryKey: ['groups'] })
+      await Promise.all([
+        client.invalidateQueries({ queryKey: ['groups'] }),
+        client.invalidateQueries({ queryKey: ['group-detail'] }),
+        client.invalidateQueries({ queryKey: ['group-claims'] }),
+      ])
     } catch (e) {
       setError(
         (e as { shortMessage?: string; message?: string }).shortMessage ?? (e as Error).message,
@@ -403,18 +395,14 @@ export default function ReadPact() {
     refetchInterval: 15000,
   })
   const myGroups =
-    chain.data?.groups.filter((g) =>
+    chain.data?.filter((g) =>
       g.people.some((p) => p.address.toLowerCase() === account.toLowerCase()),
     ) ?? []
   const algorithm = books.find((book) => book.slug === 'algorithms-to-live-by-v1')
   const demoProgress = useQuery({ queryKey: demoProgressKey, queryFn: getDemoProgress })
   const locked = myGroups.filter((g) => !g.settled).length * 10
-  const claimable = myGroups.reduce(
-    (total, g) =>
-      total +
-      (g.people.find((p) => p.address.toLowerCase() === account.toLowerCase())?.claimable ?? 0n),
-    0n,
-  )
+  const claimable = accountClaims.data
+
   const status = (g: Group) =>
     g.cancelled
       ? t('已取消')
@@ -429,7 +417,7 @@ export default function ReadPact() {
           : now >= g.joinUntil
             ? t('组队过期')
             : t('组队中')
-  const groups = (chain.data?.groups ?? []).filter((g) => {
+  const groups = (chain.data ?? []).filter((g) => {
     const matches =
       !search.trim() ||
       `${g.id} ${bookFor(g)?.name ?? ''} ${bookFor(g)?.title ?? ''}`
@@ -448,6 +436,7 @@ export default function ReadPact() {
     setSelected('')
     setError('')
     const url = new URL(location.pathname, location.origin)
+    if (next === 'groups') url.searchParams.set('view', 'groups')
     if (next === 'mine') {
       url.searchParams.set('view', 'mine')
       if (walletGroup) {
@@ -625,7 +614,18 @@ export default function ReadPact() {
           {t('最近交易')} {short(txHash)} <ArrowUpRight size={14} />
         </a>
       )}
-      {chain.isError && <p className="error">{t('链上数据读取失败，请稍后刷新。')}</p>}
+      {chain.isError && (
+        <p className="error">
+          {chain.data ? t('更新失败，正在显示已缓存的小组。') : t('小组读取失败，请重试。')}
+          <button onClick={() => void chain.refetch()}>重试</button>
+        </p>
+      )}
+      {detail.isError && view === 'detail' && (
+        <p className="error">
+          {detail.data ? '详情更新失败，保留已缓存记录。' : '成员与打卡记录读取失败。'}
+          <button onClick={() => void detail.refetch()}>重试详情</button>
+        </p>
+      )}
       {oldInvitation && (
         <p className="notice">
           {t('这是旧版测试小组链接。项目已切换定时共读版本，请从新版书架重新发起或加入。')}
@@ -643,8 +643,8 @@ export default function ReadPact() {
           <EditorialHome
             books={books}
             groupsLoading={chain.isPending}
-            bookReaders={chain.data?.bookReaders ?? {}}
-            groups={(chain.data?.groups ?? []).map((g) => ({
+            bookReaders={bookReaders}
+            groups={(chain.data ?? []).map((g) => ({
               id: g.id,
               bookId: g.bookId,
               people: g.people.length,
@@ -814,7 +814,7 @@ export default function ReadPact() {
               </div>
               <div>
                 <span>{t('待领取')}</span>
-                <b>{account ? formatEther(claimable) : '—'} MON</b>
+                <b>{account && claimable !== undefined ? formatEther(claimable) : '—'} MON</b>
               </div>
             </div>
           </section>
@@ -1012,9 +1012,24 @@ export default function ReadPact() {
       )}
       {view === 'detail' && !group && (
         <div className="empty-state">
-          {chain.isPending ? t('正在读取链上小组…') : t('暂未找到该小组，请刷新或返回广场。')}
-          <button className="secondary" onClick={() => void chain.refetch()}>
+          {summary
+            ? `${bookFor(summary)?.name ?? ''} · ${summary.people.length} 人 · ${formatEther(summary.pool)} MON`
+            : chain.isPending
+              ? t('正在读取小组列表…')
+              : t('暂未找到该小组，请重试。')}
+          {summary && (
+            <p>
+              {detail.isError ? '详情暂不可用，列表数据已保留。' : '正在读取本组成员与打卡记录…'}
+            </p>
+          )}
+          <button
+            className="secondary"
+            onClick={() => void (summary ? detail.refetch() : chain.refetch())}
+          >
             {t('重新加载')}
+          </button>
+          <button className="secondary" onClick={() => navigate('groups')}>
+            返回广场
           </button>
         </div>
       )}

@@ -18,3 +18,11 @@ Monad Blitz 参赛源码快照。
 ## 本地运行
 
 Java 21、Maven、Node.js 20。后端：`cd back && mvn spring-boot:run`；前端：`cd front && npm ci && npm run dev`。部署所需配置请使用环境变量自行设置。
+
+## 最新演示截图
+
+![书架与进度](docs/readpact/design/database-demo-home.png)
+
+![打卡完成](docs/readpact/design/database-demo-complete.png)
+
+![小组列表](docs/readpact/design/group-list-cached.png)

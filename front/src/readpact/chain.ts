@@ -39,19 +39,31 @@ export interface ReadingTask {
 }
 class HttpProvider extends JsonRpcProvider {
   private pending: Promise<unknown> = Promise.resolve()
-  private nextReadAt = 0
+  private windowStartedAt = 0
+  private windowCalls = 0
   async _send(payload: JsonRpcPayload | JsonRpcPayload[]): Promise<JsonRpcResult[]> {
     const request = this.pending.then(async () => {
       const calls = Array.isArray(payload) ? payload : [payload]
       const results: JsonRpcResult[] = []
       // Public testnet RPC permits 15 calls/sec. Pace all queries sharing this provider.
       for (let i = 0; i < calls.length; i += 5) {
-        const delay = this.nextReadAt - Date.now()
-        if (delay > 0) await new Promise((resolve) => setTimeout(resolve, delay))
-        this.nextReadAt = Date.now() + 1100
+        const batch = calls.slice(i, i + 5)
+        if (Date.now() - this.windowStartedAt >= 1100) {
+          this.windowStartedAt = Date.now()
+          this.windowCalls = 0
+        }
+        if (this.windowCalls + batch.length > 5) {
+          await new Promise((resolve) =>
+            setTimeout(resolve, Math.max(0, 1100 - (Date.now() - this.windowStartedAt))),
+          )
+          this.windowStartedAt = Date.now()
+          this.windowCalls = 0
+        }
+        this.windowCalls += batch.length
         const { data } = await http.post<JsonRpcResult | JsonRpcResult[]>(
           this._getConnection().url,
-          calls.slice(i, i + 5),
+          batch,
+          { timeout: 8000 },
         )
         results.push(...(Array.isArray(data) ? data : [data]))
       }
